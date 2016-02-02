@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from unittest import TestCase
-
+import unittest
 
 class NewVisitorTest(TestCase):
 
