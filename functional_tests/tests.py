@@ -90,6 +90,3 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('Buy Peacock Feathers', page_text)
         self.assertNotIn('Make a fly', page_text)
 
-
-        self.fail('Finish the test!')
-
