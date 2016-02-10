@@ -8,19 +8,12 @@ from lists.models import Item, List
 class NewListTest(TestCase):
 
     def test_saving_a_POST(self):
-        # request = HttpRequest()
-        # request.method = 'POST'
-        # request.POST['item_text'] = 'A new list item'
         self.client.post('/lists/new', data={'item_text': 'A new list item'})
         self.assertEqual(Item.objects.count(), 1)
         new_item = Item.objects.first()
         self.assertEqual(new_item.text, 'A new list item')
 
     def test_redirects_after_POST(self):
-        # request = HttpRequest()
-        # request.method = 'POST'
-        # request.POST['item_text'] = 'A new list item'
-
         response = self.client.post('/lists/new', data={'item_text': 'A new list item'})
 
         new_list = List.objects.first()
@@ -74,35 +67,6 @@ class ListViewTest(TestCase):
         self.assertNotContains(response, 'Other list item 1')
         self.assertNotContains(response, 'Other list item 2')
 
-
-class ListAndItemModelsTest(TestCase):
-
-    def test_saving_and_retrieving_items(self):
-        list_ = List()
-        list_.save()
-
-        first_item = Item()
-        first_item.text = 'The first (ever) list item'
-        first_item.list = list_
-        first_item.save()
-
-        second_item = Item()
-        second_item.text = 'Item the second'
-        second_item.list = list_
-        second_item.save()
-
-        saved_list = List.objects.first()
-        self.assertEqual(saved_list, list_)
-
-        saved_items = Item.objects.all()
-        self.assertEqual(saved_items.count(), 2)
-
-        item_1 = saved_items[0]
-        item_2 = saved_items[1]
-        self.assertEqual(item_1.text, 'The first (ever) list item')
-        self.assertEqual(item_1.list, list_)
-        self.assertEqual(item_2.text, 'Item the second')
-        self.assertEqual(item_2.list, list_)
 
 class HomePageTest(TestCase):
 
