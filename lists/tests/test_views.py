@@ -1,9 +1,11 @@
-from django.test import TestCase
-from django.core.urlresolvers import resolve
-from lists.views import home_page
+from django.core.urlresolvers import resolve, reverse
 from django.http import HttpRequest
 from django.template.loader import render_to_string
+from django.test import TestCase
+from django.utils.html import escape
 from lists.models import Item, List
+from lists.views import home_page
+
 
 class NewListTest(TestCase):
 
@@ -43,6 +45,21 @@ class NewListTest(TestCase):
         )
 
         self.assertRedirects(response, '/lists/{0}/'.format(correct_list.id))
+
+    def test_validation_errors_are_sent_back_to_homepage_template(self):
+        response = self.client.post(reverse('new_list'), data={'item_text': ''})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home.html')
+
+        expected_error = escape("You can't have an empty list item")
+
+        self.assertContains(response, expected_error)
+
+    def test_invalid_list_items_arent_saved(self):
+        self.client.post(reverse('new_list'), data={'item_text': ''})
+        self.assertEqual(Item.objects.count(), 0)
+        self.assertEqual(Item.objects.count(), 0)
+
 
 class ListViewTest(TestCase):
 
