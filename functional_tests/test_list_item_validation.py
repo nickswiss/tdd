@@ -4,7 +4,6 @@
 #
 
 from .base import FunctionalTest
-from unittest import skip
 
 
 class ItemValidationTest(FunctionalTest):
@@ -36,20 +35,3 @@ class ItemValidationTest(FunctionalTest):
 
         # And she can correct it by filling some text in.
         self.browser.find_element_by_id('id_new_item').send_keys('Make tea\n')
-
-        self.check_for_row_in_list_table('1: Buy milk')
-        self.check_for_row_in_list_table('2: Make tea')
-
-            # Edith goes to the home page and accidentally tries to submit
-            # an empty list item. She hits Enter on the empty input box
-
-            # The home page refreshes and there is an error message saying
-            # that list items cannot be blank
-
-            # She tries again with some text for the item, which now works
-
-            # Perversely, she now decides to submit a second blank list item
-
-            # She receives a similar warning on the list page.
-
-            # And she can correct it by filling some text in.
